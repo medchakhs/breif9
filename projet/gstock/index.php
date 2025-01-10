@@ -19,7 +19,7 @@
       </div>
       <ul class="nav-links">
         <li>
-          <a href="index.php" class="active">
+          <a href="#" class="active">
             <i class="bx bx-grid-alt"></i>
             <span class="links_name">Dashboard</span>
           </a>
@@ -27,25 +27,25 @@
         <li>
           <a href="formproduct.php">
             <i class="bx bx-box"></i>
-            <span class="links_name">ajouter produit</span>
+            <span class="links_name">Ajouter Produit</span>
           </a>
         </li>
         <li>
           <a href="aficheproduct.php">
             <i class="bx bx-list-ul"></i>
-            <span class="links_name">les Produit</span>
+            <span class="links_name">les produit</span>
           </a>
         </li>
         <li>
           <a href="#">
             <i class="bx bx-pie-chart-alt-2"></i>
-            <span class="links_name">Analyses</span>
+            <span class="links_name">forme modif</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="gereclient.php">
             <i class="bx bx-coin-stack"></i>
-            <span class="links_name">Stock</span>
+            <span class="links_name">GERE LES CLIENT</span>
           </a>
         </li>
         <li>
@@ -86,7 +86,6 @@
         </li>
       </ul>
     </div>
-    
     <section class="home-section">
       <nav>
         <div class="sidebar-button">

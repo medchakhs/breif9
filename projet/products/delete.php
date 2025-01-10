@@ -1,8 +1,18 @@
 <?php
+include_once '../database.php';
+class delete {
 
-if($_GET['id']){
-    require_once 'classes/ProductManager.php';
-    $productManager = new ProductManager();
-    $productManager->delete($_GET['id']);
-    header('Location: /products/index.php');
+    public function deleteproduit($id) {
+        global $pdo;
+        $query = "UPDATE products SET sup = now() WHERE id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            ':id' => $id
+        ]);
+    }
 }
+   $id = $_GET["id"];
+   $new = new delete;
+   $new->deleteproduit($id);
+   header('location: ../gstock/aficheproduct.php');
+?>

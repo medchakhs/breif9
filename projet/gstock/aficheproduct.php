@@ -6,6 +6,7 @@
   <title>Product Form</title>
   <link rel="stylesheet" href="affiche.css">
   <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="home-section">
@@ -36,13 +37,13 @@
           <li>
             <a href="#">
               <i class="bx bx-pie-chart-alt-2"></i>
-              <span class="links_name">Analyses</span>
+              <span class="links_name">forme product</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="gereclient.php">
               <i class="bx bx-coin-stack"></i>
-              <span class="links_name">Stock</span>
+              <span class="links_name">GERE LES CLIENT</span>
             </a>
           </li>
           <li>
@@ -101,30 +102,31 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Image</th>
+                <th>modifier</th>
+                <th>supprimer</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Product 1</td>
-                <td>This is a description of product 1.</td>
-                <td>$10.00</td>
-                <td>5</td>
-                <td><img src="https://via.placeholder.com/50" alt="Product 1"></td>
-            </tr>
-            <tr>
-                <td>Product 2</td>
-                <td>This is a description of product 2.</td>
-                <td>$15.00</td>
-                <td>3</td>
-                <td><img src="https://via.placeholder.com/50" alt="Product 2"></td>
-            </tr>
-            <tr>
-                <td>Product 3</td>
-                <td>This is a description of product 3.</td>
-                <td>$20.00</td>
-                <td>8</td>
-                <td><img src="https://via.placeholder.com/50" alt="Product 3"></td>
-            </tr>
+        <?php
+        include_once '../database.php';
+        $query = "SELECT * FROM products";
+        $stmt = $pdo->query($query);
+        
+        
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          if($row['sup'] == NULL){
+            echo "<tr>";
+            echo "<td>" .$row['name']. "</td>";
+            echo "<td>" .$row['description']."</td>";
+            echo "<td>".$row['price']. "</td>";
+            echo "<td>".$row['quantite']. "</td>";
+            echo "<td><img src='". $row['image']."' alt=''></td>"; 
+            echo "<td><a href='formmodif.php?id=".$row['id']."'>Modofier</a></td>"; 
+            echo "<td><a href='../products/delete.php?id=".$row['id']."'>Supprimer</a></td>";  
+            echo "</tr>";
+        }
+      }
+        ?>
         </tbody>
     </table>
 </div>

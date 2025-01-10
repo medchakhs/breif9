@@ -1,33 +1,27 @@
 <?php
-require_once 'classes/ProductManager.php';
-$productManager = new ProductManager();
-$product = $productManager->getProduct($_GET['id']);
-
-if($_POST['btnSubmit'])
-{
-    $product->setName($_POST['name']);
-    $product->setDescription($_POST['description']);
-    $product->setPrice($_POST['price']);
-    $product->setQuantity($_POST['quantity']);
-    $productManager->update($product);
-    header('Location: /products/index.php');
-}    
-
+include_once '../database.php';
+class modifierproduits{
+    
+    public function modifierproduit($id,$nome, $description, $price, $quantite, $image) {
+        global $pdo;
+        $query = "UPDATE products SET name = :name, description = :description, price = :price, quantite = :quantite, image = :image WHERE id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            ':name' => $nome,
+            ':description' => $description,
+            ':price' => $price,
+            ':quantite' => $quantite,
+            ':image' => $image,
+            ':id' => $id
+        ]);
+    }
+    public function modif($id) {
+        global $pdo;
+        $query = "SELECT * FROM products WHERE id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
+}
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier</title>
-</head>
-<body>
-    <form action="">
-        <input type="text" name="name" value="<?= $product->getName(); ?>">
-        <input type="text" name="description" value="<?= $product->getDescription(); ?>">
-        <input type="text" name="price" value="<?= $product->getPrice(); ?>">
-        <input type="text" name="quantity" value="<?= $product->getQuantity(); ?>">
-        <button type="submit" name="btnSubmit">Modifier</button>
-    </form>
-</body>
-</html>

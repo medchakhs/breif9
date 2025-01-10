@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Form</title>
-  <link rel="stylesheet" href="form.css">
+  <link rel="stylesheet" href="affiche.css">
   <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="home-section">
@@ -22,21 +23,21 @@
             </a>
           </li>
           <li>
-            <a href="formproduct.php" class="active">
+            <a href="formproduct.php">
               <i class="bx bx-box"></i>
               <span class="links_name">Ajouter Produit</span>
             </a>
           </li>
           <li>
-            <a href="aficheproduct.php">
+            <a href="aficheproduct.php" class="active">
               <i class="bx bx-list-ul"></i>
-              <span class="links_name">les produit</span>
+              <span class="links_name">les Produit</span>
             </a>
           </li>
           <li>
             <a href="#">
               <i class="bx bx-pie-chart-alt-2"></i>
-              <span class="links_name">forme modif</span>
+              <span class="links_name">forme product</span>
             </a>
           </li>
           <li>
@@ -89,51 +90,54 @@
             <i class="bx bx-chevron-down"></i>
           </div>
         </nav>
-      </section>
+    </section>
 
-    <!-- form -->
-  <section class="form-container">
-    <h2>Product Form</h2>
-    <form action="" method="POST">
-      <div class="form-group">
-        <label for="name">Product Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter product name" required>
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" name="description" placeholder="Enter product description" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price" placeholder="Enter product price" step="0.01" required>
-      </div>
-      <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input type="number" id="quantity" name="quantity" placeholder="Enter product quantity" required>
-      </div>
-      <div class="form-group">
-        <label for="image">Image</label>
-        <input type="text" id="image" name="image" required>
-      </div>
-      <div class="form-group">
-        <button type="submit" name="submit">Submit</button>
-      </div>
-    </form>
-  </section>
+    <!-- table affiche -->
+<div class="tab">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>email</th>
+                <th>role</th>
+                <th>is-active</th>
+            </tr>
+        </thead>
+        <tbody>
+ <?php
+        include_once '../database.php';
+        include_once '../products/classclient.php';
+        $query = "SELECT * FROM users";
+        $stmt = $pdo->query($query);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if($row['role'] != 'admin'){
+            echo "<tr>";
+            echo "<td>" .$row['username']. "</td>";
+            echo "<td>" .$row['email']."</td>";
+            echo "<td>".$row['role']. "</td>";
+            if ($row['is_active'] == 1) {
+                echo "<td>
+                    <a href='gereclient.php?id=".$row['id']."'>
+                        <button type='button' style='background-color: green; width: 30px; height: 30px;'></button>
+                    </a>
+                </td>"; 
+            } else {
+                echo "<td>
+                    <a href='gereclient.php?id=".$row['id']."'>
+                        <button type='button' style='background-color: red; width: 30px; height: 30px;'></button>
+                    </a>
+                </td>";
+            }
+            
+            echo "</tr>";
+            }
+      }
+ ?>
+        </tbody>
+    </table>
+</div>
 
-  <?php
-    include_once '../products/ajouter.php';
-    include_once '../database.php';
-    if(isset($_POST['submit'])) {
-      $name = $_POST['name'];
-      $description = $_POST['description'];
-      $price = $_POST['price'];
-      $quantity = $_POST['quantity'];
-      $image = $_POST['image'];
-      $ajoute = new afficheproduit( $name, $description, $price, $quantity, $image, $pdo);
-      $ajoute->ajouterproduit();
-    }
-  ?>
+
   <script>
     let sidebar = document.querySelector(".sidebar");
     let sidebarBtn = document.querySelector(".sidebar-button i");
@@ -141,6 +145,22 @@
       sidebar.classList.toggle("active");
     };
   </script>
-  
+
+<?php
+include_once '../database.php';
+include_once '../products/classclient.php';
+
+if (isset($_GET['id'])) {
+    $id =($_GET['id']); 
+    $produit = new gerecliente();
+    $produit->gereclient($id);
+    // header("Location: gereclient.php"); 
+    exit();
+} else {
+    echo "ID non fourni.";
+}
+?>
+
+
 </body>
 </html>
